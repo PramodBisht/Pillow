@@ -4,10 +4,91 @@ Changelog (Pillow)
 3.4.0 (unreleased)
 ------------------
 
+- Convert DPI to ints when saving as JPEG #2102
+  [radarhere]
+
+- Added append_images parameter to GIF saving #2103
+  [radarhere]
+
+- Speedup paste with masks up to 80% #2015 
+  [homm]
+
+- Rewrite DDS decoders in C, add DXT3 and BC7 decoders #2068
+  [Mischanix]
+
+- Fix PyArg_ParseTuple format in getink() #2070
+  [arjennienhuis]
+
+- Fix saving originally missing TIFF tags. #2111
+  [anntzer]
+
+- Allow pathlib.Path in Image.open on Python 2.7 #2110
+  [patricksnape]
+
+- Use modern base64 interface over deprecated #2121
+  [hugovk]
+
+- ImageColor.getrgb hexadecimal RGBA #2114
+  [homm]
+
+- Test fix for bigendian machines #2092
+  [wiredfool]
+
+- Resampling lookups, trailing empty coefficients, precision #2008
+  [homm]
+
+- Add (un)packing between RGBA and BGRa #2057
+  [arjennienhuis]
+
+- Added return for J2k (and fpx) Load to return a pixel access object #2061
+  [wiredfool]
+
+- Skip failing numpy tests on Pypy <= 5.3.1 #2090
+  [arjennienhuis]
+
+- Show warning when trying to save RGBA image as JPEG #2010
+  [homm]
+
+- Respect pixel centers during transform #2022
+  [homm]
+
+- TOC for supported file formats #2056
+  [polarize]
+
+- Fix conversion of bit images to numpy arrays Fixes #350, #2058
+  [matthew-brett]
+
+- Add ImageOps.scale to expand or contract a PIL image by a factor #2011
+  [vlmath]
+
+- Flake8 fixes #2050
+  [hugovk]
+
+- Updated freetype to 2.6.5 on Appveyor builds #2035
+  [radarhere]
+
+- PCX encoder fixes #2023, pr #2041
+  [homm]
+
+- Docs: Windows console prompts are > #2031
+  [techtonik]
+
+- Expose Pillow package version as PIL.__version__ #2027
+  [techtonik]
+
 - Add Box and Hamming filters for resampling #1959
   [homm]
 
 - Retain a reference to core image object in PyAccess #2009
+  [homm]
+
+3.3.1 (2016-08-18)
+------------------
+
+- Fix C90 compilation error for Tcl / Tk rewrite #2033
+  [matthew-brett]
+
+- Fix image loading when rotating by 0 deg #2052
   [homm]
 
 3.3.0 (2016-07-01)
@@ -18,7 +99,7 @@ Changelog (Pillow)
 
 - Fix issue converting P mode to LA #1986
   [didrix]
-  
+
 - Moved test_j2k_overflow to check_j2k_overflow, prevent DOS of our 32bit testing machines #1995
   [wiredfool]
 
@@ -45,10 +126,10 @@ Changelog (Pillow)
 
 - test_imagecms: Reduce precision of extended info due to 32 bit machine precision #1990
   [AbdealiJK]
-  
+
 - Binary Tiff Metadata/ICC profile. #1988
   [wiredfool]
-  
+
 - Ignore large text blocks in PNG if LOAD_TRUNCATED_IMAGES is enabled #1970
   [homm]
 
@@ -57,7 +138,7 @@ Changelog (Pillow)
 
 - Skip extra 0xff00 in jpeg #1977
   [kkopachev]
-  
+
 - Use bytearray for palette mutable storage #1985
   [radarhere, wiredfool]
 
@@ -69,7 +150,7 @@ Changelog (Pillow)
 
 - Changed depends/install_*.sh urls to point to github pillow-depends repo #1983
   [wiredfool]
-  
+
 - Allow ICC profile from `encoderinfo` while saving PNGs #1909
   [homm]
 
@@ -84,7 +165,7 @@ Changelog (Pillow)
 
 - Change equals method on Image so it short circuits #1967
   [mattBoros]
- 
+
 - Runtime loading of TCL/TK libraries, eliminating build time dependency. #1932
   [matthew-brett]
 
@@ -246,7 +327,7 @@ Changelog (Pillow)
 
 - Added install docs for Fedora 23 and FreeBSD #1729, #1739, #1792
   [koobs, zandermartin, wiredfool]
-  
+
 - Fixed TIFF multiframe load when the frames have different compression types #1782
   [radarhere, geka000]
 
@@ -255,7 +336,7 @@ Changelog (Pillow)
 
 - Updated dates in PIL license in OleFileIO README  #1787
   [radarhere]
-  
+
 - Corrected Tiff tag names #1786
   [radarhere]
 
@@ -306,7 +387,7 @@ Changelog (Pillow)
 
 - Add a loader for the FTEX format from Independence War 2: Edge of Chaos #1688
   [jleclanche]
-  
+
 - Improved alpha_composite documentation #1698
   [radarhere]
 
@@ -324,7 +405,7 @@ Changelog (Pillow)
 
 - Fixed support for .gbr version 1 images, added support for version 2 in GbrImagePlugin #1653
   [wiredfool]
-  
+
 - Clarified which YCbCr format is used #1677
   [radarhere]
 
@@ -401,7 +482,7 @@ Changelog (Pillow)
 
 - Updated installation docs for new versions of dependencies #1611
   [radarhere]
-  
+
 - Removed unrunnable test file #1610
   [radarhere]
 
@@ -410,7 +491,7 @@ Changelog (Pillow)
 
 - Added field type constants to TiffTags #1596
   [radarhere]
-  
+
 - Allow saving RowsPerStrip with libtiff #1594
   [wiredfool]
 
@@ -419,10 +500,10 @@ Changelog (Pillow)
 
 - Changed some urls in the docs to use https #1580
   [hugovk]
- 
+
 - Removed logger.exception from ImageFile.py #1590
   [radarhere]
-  
+
 - Removed warnings module check #1587
   [radarhere]
 
@@ -437,7 +518,7 @@ Changelog (Pillow)
 
 - Consistent multiline text spacing #1574
   [wiredfool, hugovk]
-  
+
 - Removed unused lines in BDFFontFile #1530
   [radarhere]
 
@@ -455,19 +536,19 @@ Changelog (Pillow)
 
 - Docs and code health fixes #1565 #1566 #1581 #1586 #1591 #1621
   [radarhere]
-  
+
 - Updated freetype to 2.6.2 #1564
   [radarhere]
 
 - Updated WebP to 0.5.0 for Travis #1515 #1609
   [radarhere]
-  
+
 - Fix missing 'version' key value in __array_interface__ #1519
   [mattip]
-  
+
 - Replaced os.popen with subprocess.Popen to pilprint script #1523
   [radarhere]
-  
+
 - Catch OverflowError in SpiderImagePlugin #1545
   [radarhere, MrShark]
 
@@ -479,7 +560,7 @@ Changelog (Pillow)
 
 - Fix Exception when requiring jpeg #1501
   [hansmosh]
-  
+
 - Dependency scripts for Debian and Ubuntu #1486
   [wiredfool]
 
@@ -512,28 +593,28 @@ Changelog (Pillow)
 
 - Added PDF multipage saving #1445
   [radarhere]
-  
+
 - Removed deprecated code, Image.tostring, Image.fromstring, Image.offset, ImageDraw.setink, ImageDraw.setfill, ImageFileIO, ImageFont.FreeTypeFont and ImageFont.truetype `file` kwarg, ImagePalette private _make functions, ImageWin.fromstring and ImageWin.tostring #1343
   [radarhere]
 
 - Load more broken images #1428
   [homm]
-  
+
 - Require zlib and libjpeg #1439
   [wiredfool]
 
 - Preserve alpha when converting from a QImage to a Pillow Image by using png instead of ppm #1429
   [ericfrederich]
-  
+
 - Qt needs 32 bit aligned image data #1430
   [ericfrederich]
-  
+
 - Tiff ImageFileDirectory rewrite #1419
   [anntzer, wiredfool, homm]
 
 - Removed spammy debug logging #1423
   [wiredfool]
-  
+
 - Save as GiF89a with support for animation parameters #1384
   [radarhere]
 
@@ -554,19 +635,19 @@ Changelog (Pillow)
 
 - Single threaded build for pypy3, refactor #1413
   [wiredfool]
-  
+
 - Fix loading of truncated images with LOAD_TRUNCATED_IMAGES enabled #1366
   [homm]
 
 - Documentation update for concepts: bands
   [merriam]
-  
+
 - Add Solaris/SmartOS include and library directories #1356
   [njones11]
-  
+
 - Improved handling of getink color #1387
   [radarhere]
-  
+
 - Disable compiler optimizations for topalette and tobilevel functions for all msvc versions, fixes #1357
   [cgohlke]
 
@@ -602,10 +683,10 @@ Changelog (Pillow)
 
 - Fix fast rotate operations #1373
   [radarhere]
-  
+
 - Added support for pathlib Path objects to open and save #1372
   [radarhere]
-  
+
 - Changed register calls to use format property #1333
   [radarhere]
 
@@ -623,7 +704,7 @@ Changelog (Pillow)
 
 - Added various tests #1330, #1344
   [radarhere]
-  
+
 - More ImageFont tests #1327
   [hugovk]
 
@@ -650,10 +731,10 @@ Changelog (Pillow)
 
 - Added width and height properties #1304
   [radarhere]
- 
+
 - Update tiff and tk tcl 8.5 versions #1303
   [radarhere, wiredfool]
- 
+
 - Add functions to convert: Image <-> QImage; Image <-> QPixmap #1217
   [radarhere, rominf]
 
@@ -662,19 +743,19 @@ Changelog (Pillow)
 
 - Multiline text in ImageDraw #1177
   [allo-, radarhere]
-  
+
 - Automated Windows CI/build support #1278
   [wiredfool]
 
 - Removed support for Tk versions earlier than 8.4 #1288
   [radarhere]
-  
+
 - Fixed polygon edge drawing #1255 (fixes #1252)
   [radarhere]
-  
+
 - Check prefix length in _accept methods #1267
   [radarhere]
-  
+
 - Register MIME type for BMP #1277
   [coldmind]
 
@@ -683,7 +764,7 @@ Changelog (Pillow)
 
 - Identify XBM file created with filename including underscore #1230 (fixes #1229)
   [hugovk]
-  
+
 - Copy image when saving in GifImagePlugin #1231 (fixes #718)
   [radarhere]
 
@@ -707,7 +788,7 @@ Changelog (Pillow)
 
 - Setting transparency value to 0 when the tRNS contains only null byte(s) #1239
   [juztin]
- 
+
 - Separated out feature checking from selftest #1233
   [radarhere]
 
@@ -776,7 +857,7 @@ Changelog (Pillow)
 
 - Fix ImagingEffectNoise #1128
   [hugovk]
-  
+
 - Remove unreachable code
   [hugovk]
 
@@ -788,13 +869,13 @@ Changelog (Pillow)
 
 - Fast path for opaque pixels in RGBa unpacker #1088
   [bgilbert]
-  
+
 - Enable basic support for 'RGBa' raw encoding/decoding #1096
   [immerrr]
 
 - Fix pickling L mode images with no palette, #1095
   [hugovk]
-  
+
 - iPython display hook #1091
   [wiredfool]
 
@@ -818,13 +899,13 @@ Changelog (Pillow)
 
 - Use underscores, not spaces, in TIFF tag kwargs. #1044, #1058
   [anntzer, hugovk]
-  
+
 - Update PSDraw for Python3, add tests. #1055
   [hugovk]
 
 - Use Bicubic filtering by default for thumbnails. Don't use Jpeg Draft mode for thumbnails. #1029
   [homm]
-  
+
 - Fix MSVC compiler error: Use Py_ssize_t instead of ssize_t #1051
   [cgohlke]
 
@@ -848,7 +929,7 @@ Changelog (Pillow)
 
 - Fix for saving TIFF image into an io.BytesIO buffer #1011
   [mfergie]
-  
+
 - Fix antialias compilation on debug versions of Python #1010
   [wiredfool]
 
@@ -860,7 +941,7 @@ Changelog (Pillow)
 
 - Use PyQt4 if it has already been imported, otherwise prefer PyQt5. #1003
   [AurelienBallier]
-  
+
 - Speedup resample implementation up to 2.5 times. #977
   [homm]
 
@@ -881,7 +962,7 @@ Changelog (Pillow)
 
 - Webp Metadata Skip Test comments #954
   [wiredfool]
-  
+
 - Fixes for things rpmlint complains about #942
   [manisandro]
 
@@ -899,7 +980,7 @@ Changelog (Pillow)
 
 - Fix SciPy regression in Image.resize #945
   [wiredfool]
-  
+
 - Fix manifest to include all test files.
   [aclark4life]
 
@@ -917,13 +998,13 @@ Changelog (Pillow)
 
 - Use redistributable ICC profiles for testing, skip if not available #923
   [wiredfool]
-  
+
 - Additional documentation for JPEG info and save options #890
   [wiredfool]
 
 - Fix JPEG Encoding memory leak when exif or qtables were specified
   [wiredfool]
-  
+
 - Image.tobytes() and Image.tostring() documentation update #916 #917
   [mgedmin]
 
@@ -989,7 +1070,7 @@ Changelog (Pillow)
 
 - Added support for reading MPO files
   [Feneric]
-  
+
 - Added support for encoding and decoding iTXt chunks #818
   [dolda2000]
 
@@ -1039,7 +1120,7 @@ Changelog (Pillow)
 - Fixed CVE-2014-3589, a DOS in the IcnsImagePlugin (backport)
   [Andrew Drake]
 
- 
+
 2.5.1 (2014-07-10)
 ------------------
 
@@ -1060,10 +1141,10 @@ Changelog (Pillow)
 
 - Prevent shell injection #748
   [mbrown1413, wiredfool]
-  
+
 - Support for Resolution in BMP files #734
   [gcq]
-  
+
 - Fix error in setup.py for Python 3
   [matthew-brett]
 

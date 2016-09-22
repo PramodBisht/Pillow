@@ -48,7 +48,7 @@ class TestImagingCoreResampleAccuracy(PillowTestCase):
         rectangle((0, 0, size[0] // 2 - 1, size[1] // 2 - 1), color)
         rectangle((size[0] // 2, size[1] // 2, size[0], size[1]), color)
 
-        return Image.merge(mode, [case] *  len(mode))
+        return Image.merge(mode, [case] * len(mode))
 
     def make_sample(self, data, size):
         """Restores a sample image from given data string which contains
@@ -318,6 +318,23 @@ class CoreResamplePassesTest(PillowTestCase):
         count = Image.core.getcount()
         im.resize((im.size[0] + 10, im.size[1] + 10), Image.BILINEAR)
         self.assertEqual(Image.core.getcount(), count + 2)
+
+
+class CoreResampleCoefficientsTest(PillowTestCase):
+    def test_reduce(self):
+        test_color = 254
+        # print ''
+
+        for size in range(400000, 400010, 2):
+            # print '\r', size,
+            i = Image.new('L', (size, 1), 0)
+            draw = ImageDraw.Draw(i)
+            draw.rectangle((0, 0, i.size[0] // 2 - 1, 0), test_color)
+
+            px = i.resize((5, i.size[1]), Image.BICUBIC).load()
+            if px[2, 0] != test_color // 2:
+                self.assertEqual(test_color // 2, px[2, 0])
+                # print '\r>', size, test_color // 2, px[2, 0]
 
 
 if __name__ == '__main__':

@@ -364,17 +364,17 @@ getbands(const char* mode)
 static void*
 getlist(PyObject* arg, Py_ssize_t* length, const char* wrong_length, int type)
 {
-    /* - allocates and returns a c array of the items in the 
+    /* - allocates and returns a c array of the items in the
           python sequence arg.
        - the size of the returned array is in length
-       - all of the arg items must be numeric items of the type 
+       - all of the arg items must be numeric items of the type
           specified in type
        - sequence length is checked against the length parameter IF
           an error parameter is passed in wrong_length
-       - caller is responsible for freeing the memory    
+       - caller is responsible for freeing the memory
     */
 
-    Py_ssize_t i, n; 
+    Py_ssize_t i, n;
     int itemp;
     double dtemp;
     void* list;
@@ -524,7 +524,7 @@ getink(PyObject* color, Imaging im, char* ink)
         if (im->bands == 1) {
             /* unsigned integer, single layer */
             if (rIsInt != 1) {
-                if (!PyArg_ParseTuple(color, "i", &r)) {
+                if (!PyArg_ParseTuple(color, "L", &r)) {
                     return NULL;
                 }
             }
@@ -540,11 +540,11 @@ getink(PyObject* color, Imaging im, char* ink)
                 r = (UINT8) r;
             } else {
                 if (im->bands == 2) {
-                    if (!PyArg_ParseTuple(color, "i|i", &r, &a))
+                    if (!PyArg_ParseTuple(color, "L|i", &r, &a))
                         return NULL;
                     g = b = r;
                 } else {
-                    if (!PyArg_ParseTuple(color, "iii|i", &r, &g, &b, &a))
+                    if (!PyArg_ParseTuple(color, "Lii|i", &r, &g, &b, &a))
                         return NULL;
                 }
             }
@@ -3297,6 +3297,7 @@ static PyTypeObject PixelAccess_Type = {
    pluggable codecs, but not before PIL 1.2 */
 
 /* Decoders (in decode.c) */
+extern PyObject* PyImaging_BcnDecoderNew(PyObject* self, PyObject* args);
 extern PyObject* PyImaging_BitDecoderNew(PyObject* self, PyObject* args);
 extern PyObject* PyImaging_FliDecoderNew(PyObject* self, PyObject* args);
 extern PyObject* PyImaging_GifDecoderNew(PyObject* self, PyObject* args);
@@ -3362,6 +3363,7 @@ static PyMethodDef functions[] = {
     {"copy", (PyCFunction)_copy2, 1},
 
     /* Codecs */
+    {"bcn_decoder", (PyCFunction)PyImaging_BcnDecoderNew, 1},
     {"bit_decoder", (PyCFunction)PyImaging_BitDecoderNew, 1},
     {"eps_encoder", (PyCFunction)PyImaging_EpsEncoderNew, 1},
     {"fli_decoder", (PyCFunction)PyImaging_FliDecoderNew, 1},

@@ -161,7 +161,7 @@ _encode_to_pyfd(ImagingEncoderObject* encoder, PyObject* args)
 
     status = encoder->encode(encoder->im, &encoder->state,
                              (UINT8*) NULL, 0);
-    
+
     result = Py_BuildValue("ii", status, encoder->state.errcode);
 
     return result;
@@ -291,7 +291,7 @@ _setfd(ImagingEncoderObject* encoder, PyObject* args)
 
     Py_XINCREF(fd);
     state->fd = fd;
-    
+
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -365,7 +365,7 @@ get_packer(ImagingEncoderObject* encoder, const char* mode,
     pack = ImagingFindPacker(mode, rawmode, &bits);
     if (!pack) {
         Py_DECREF(encoder);
-        PyErr_SetString(PyExc_SystemError, "unknown raw mode");
+        PyErr_Format(PyExc_ValueError, "No packer found from %s to %s", mode, rawmode);
         return -1;
     }
 

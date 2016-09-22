@@ -748,6 +748,30 @@ unpackRGBa(UINT8* out, const UINT8* in, int pixels)
 }
 
 static void
+unpackBGRa(UINT8* out, const UINT8* in, int pixels)
+{
+    int i;
+    /* premultiplied BGRA */
+    for (i = 0; i < pixels; i++) {
+        int a = in[3];
+        if (!a)
+            out[R] = out[G] = out[B] = out[A] = 0;
+        else if (a == 255) {
+            out[R] = in[2];
+            out[G] = in[1];
+            out[B] = in[0];
+            out[A] = a;
+        } else {
+            out[R] = CLIP(in[2] * 255 / a);
+            out[G] = CLIP(in[1] * 255 / a);
+            out[B] = CLIP(in[0] * 255 / a);
+            out[A] = a;
+        }
+        out += 4; in += 4;
+    }
+}
+
+static void
 unpackRGBAI(UINT8* out, const UINT8* in, int pixels)
 {
     int i;
@@ -882,7 +906,7 @@ unpackI16N_I16B(UINT8* out, const UINT8* in, int pixels){
         C16B;
 		in += 2; tmp += 2;
     }
-	
+
 }
 static void
 unpackI16N_I16(UINT8* out, const UINT8* in, int pixels){
@@ -897,7 +921,7 @@ unpackI16N_I16(UINT8* out, const UINT8* in, int pixels){
 static void
 unpackI12_I16(UINT8* out, const UINT8* in, int pixels){
     /*  Fillorder 1/MSB -> LittleEndian, for 12bit integer greyscale tiffs.
-        
+
         According to the TIFF spec:
 
         FillOrder = 2 should be used only when BitsPerSample = 1 and
@@ -934,7 +958,7 @@ unpackI12_I16(UINT8* out, const UINT8* in, int pixels){
 #else
         out16[1] = pixel;
 #endif
-  
+
 		in += 3; out16 += 2; out+=4;
     }
     if (i == pixels-1) {
@@ -1206,6 +1230,7 @@ static struct {
     {"RGBA",    "LA;16B",       32,     unpackRGBALA16B},
     {"RGBA",    "RGBA",         32,     copy4},
     {"RGBA",    "RGBa",         32,     unpackRGBa},
+    {"RGBA",    "BGRa",         32,     unpackBGRa},
     {"RGBA",    "RGBA;I",       32,     unpackRGBAI},
     {"RGBA",    "RGBA;L",       32,     unpackRGBAL},
     {"RGBA",    "RGBA;15",      16,     ImagingUnpackRGBA15},

@@ -204,7 +204,7 @@ _setimage(ImagingDecoderObject* decoder, PyObject* args)
             }
             state->bytes = (state->bits * state->xsize+7)/8;
         }
-        /* malloc check ok, oveflow checked above */
+        /* malloc check ok, overflow checked above */
         state->buffer = (UINT8*) malloc(state->bytes);
         if (!state->buffer)
             return PyErr_NoMemory();
@@ -233,7 +233,7 @@ _setfd(ImagingDecoderObject* decoder, PyObject* args)
 
     Py_XINCREF(fd);
     state->fd = fd;
-    
+
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -362,6 +362,56 @@ PyImaging_BitDecoderNew(PyObject* self, PyObject* args)
     ((BITSTATE*)decoder->state.context)->pad  = pad;
     ((BITSTATE*)decoder->state.context)->fill = fill;
     ((BITSTATE*)decoder->state.context)->sign = sign;
+
+    return (PyObject*) decoder;
+}
+
+
+/* -------------------------------------------------------------------- */
+/* BCn: GPU block-compressed texture formats                            */
+/* -------------------------------------------------------------------- */
+
+PyObject*
+PyImaging_BcnDecoderNew(PyObject* self, PyObject* args)
+{
+    ImagingDecoderObject* decoder;
+
+    char* mode;
+    char* actual;
+    int n = 0;
+    int ystep = 1;
+    if (!PyArg_ParseTuple(args, "s|ii", &mode, &n, &ystep))
+        return NULL;
+
+    switch (n) {
+    case 1: /* BC1: 565 color, 1-bit alpha */
+    case 2: /* BC2: 565 color, 4-bit alpha */
+    case 3: /* BC3: 565 color, 2-endpoint 8-bit interpolated alpha */
+    case 5: /* BC5: 2-channel 8-bit via 2 BC3 alpha blocks */
+    case 7: /* BC7: 4-channel 8-bit via everything */
+        actual = "RGBA"; break;
+    case 4: /* BC4: 1-channel 8-bit via 1 BC3 alpha block */
+        actual = "L"; break;
+    case 6: /* BC6: 3-channel 16-bit float */
+        /* TODO: support 4-channel floating point images */
+        actual = "RGBAF"; break;
+    default:
+        PyErr_SetString(PyExc_ValueError, "block compression type unknown");
+        return NULL;
+    }
+
+    if (strcmp(mode, actual) != 0) {
+        PyErr_SetString(PyExc_ValueError, "bad image mode");
+        return NULL;
+    }
+
+    decoder = PyImaging_DecoderNew(0);
+    if (decoder == NULL)
+        return NULL;
+
+    decoder->decode = ImagingBcnDecode;
+    decoder->state.state = n;
+    decoder->state.ystep = ystep;
 
     return (PyObject*) decoder;
 }
@@ -874,7 +924,7 @@ PyImaging_Jpeg2KDecoderNew(PyObject* self, PyObject* args)
     decoder->cleanup = ImagingJpeg2KDecodeCleanup;
 
     context = (JPEG2KDECODESTATE *)decoder->state.context;
-    
+
     context->fd = fd;
     context->length = (off_t)length;
     context->format = codec_format;

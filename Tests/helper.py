@@ -99,7 +99,7 @@ class PillowTestCase(unittest.TestCase):
             " average pixel value difference %.4f > epsilon %.4f" % (
                 ave_diff, epsilon))
 
-    def assert_warning(self, warn_class, func):
+    def assert_warning(self, warn_class, func, *args, **kwargs):
         import warnings
 
         result = None
@@ -108,7 +108,7 @@ class PillowTestCase(unittest.TestCase):
             warnings.simplefilter("always")
 
             # Hopefully trigger a warning.
-            result = func()
+            result = func(*args, **kwargs)
 
             # Verify some things.
             self.assertGreaterEqual(len(w), 1)
@@ -238,3 +238,12 @@ if sys.platform == 'win32':
         IMCONVERT = os.path.join(IMCONVERT, 'convert.exe')
 else:
     IMCONVERT = 'convert'
+
+
+class cached_property(object):
+    def __init__(self, func):
+        self.func = func
+
+    def __get__(self, instance, cls=None):
+        result = instance.__dict__[self.func.__name__] = self.func(instance)
+        return result
